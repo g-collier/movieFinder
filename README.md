@@ -8,3 +8,5 @@ You can:
 
 Programming language used: Python
 Libraries used: Beautiful Soup, urllib3, random
+
+Disclaimer: This project was created strictly for educational purposes. 
