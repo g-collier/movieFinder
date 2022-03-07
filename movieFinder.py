@@ -4,77 +4,49 @@ import urllib3
 import time
 
 
+# Getting genre preference from the user
+userGenre = input("What genre of movie do you want to see? ")
+
+#method to set the genre URL without cluttering main
 
 
-#selecting the URL we want to scrape from
-url = 'https://www.imdb.com/feature/genre/?ref_=kw_brw_1'
+url = 'https://www.imdb.com/search/title/?genres=action&title_type=feature&explore=genres&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=facfbd0c-6f3d-4c05-9348-22eebd58852e&pf_rd_r=R1ZF5MXQ8GX6B5YRN8X4&pf_rd_s=center-6&pf_rd_t=15051&pf_rd_i=genre&ref_=ft_gnr_mvpop_1'
 
 ourURL = urllib3.PoolManager().request('GET', url).data
 
-#getting/parsing the html
-soup = BeautifulSoup(ourURL, 'lxml')
+soup = BeautifulSoup(ourURL, 'html.parser')
 
-#Getting User Description for the movie they want
+i = 1
+movieList = soup.findAll('div', attrs={'class': 'lister-item mode-advanced'})
 
+for div_item in movieList:
 
-movieList = []
-userGenre = input("What genre of movie do you want to see? ") 
+    div = div_item.find('div', attrs={'class':'lister-item-content'})
+    print(str(i) + '.'),
 
-movieYear = input("List the earliest year you're willing to watch (i.e 1984): ")
+    header = div.findChildren('h3', attrs={'class':'lister-item-header'})
 
-movieRating = input("What's the lowest rating you're willing to endure? (i.e 1-5 star): ") 
+    print('Movie: ' + str((header[0].findChildren('a'))[0].contents[0].encode('utf-8').decode('ascii', 'ignore')))
 
-
-
-
-
+    i += 1
 
 
 
 
 
 
-mydivs = soup.find_all('div', {'class': 'table-cell primary'})
-
-for i in mydivs:
-        for e in i:
-                for x in e:
-                        if(x not in movieList):
-                                movieList.append(x)
-                        elif(x in movieList):
-                                pass
-                        
-
-print(movieList)
-                                
-                        
+#might have to go link by link
 
 
 
 
 
 
-     
-     
-     
-     
-     
-     
-     
-     
-     
 
 
 
 
-#filter by genre (use different URL's based on user answer)
 
-#filter by year (can be done with BeautifulSoup and conditionals)
 
-#filter by rating (same as above)
 
-#summary: we're going to ask the user for their input on what they want to watch (genre, rating, year, etc.). We'll then filter these results using individual URLs with beautiful soup.
 
-#There's got to be a different way of selecting the genre's without manually inputting each genre.
-
-#we can try to search for the a href's 
