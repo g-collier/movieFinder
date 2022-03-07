@@ -6,7 +6,7 @@ from theLinks import pageFinder
 
 #random num generator in case user wants random genre
 randNum1 = randint(1,24)
-print(randNum1)
+
 
 
 # getting genre preference from the user/option to choose random genre
